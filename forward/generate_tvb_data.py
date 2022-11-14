@@ -11,8 +11,8 @@ def main(region_id):
     """ TVB Simulation to generate raw source space dynamics, unit in mV, and ms
     :param region_id: int; source region id, with parameters generating interictal spike activity
     """
-    if not os.path.isdir('../source/raw_nmm/a{}/'.format(region_id)):
-        os.mkdir('../source/raw_nmm/a{}/'.format(region_id))
+    if not os.path.isdir('../DeepSIF/source/raw_nmm/a{}/'.format(region_id)):
+        os.mkdir('../DeepSIF/source/raw_nmm/a{}/'.format(region_id))
     start_time = time.time()
     print('------ Generate data of region_id {} ----------'.format(region_id))
     conn = connectivity.Connectivity.from_file(source_file=os.getcwd()+'/../anatomy/connectivity_76.zip') # connectivity provided by TVB
