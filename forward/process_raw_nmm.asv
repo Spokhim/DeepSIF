@@ -7,9 +7,9 @@ addRequired(p,'filename',@ischar);
 addParameter(p,'leadfield_name','leadfield_75_20k.mat', @ischar);
 parse(p, filename, varargin{:})
 filename = p.Results.filename;
-headmodel = load(['/Users/pokhims/Documents/Coding/NN_Source_Imaging/DeepSIF/anatomy/' p.Results.leadfield_name]);
+headmodel = load([''/Users/pokhims/Documents/Coding/NN_Source_Imaging/DeepSIF'anatomy/' p.Results.leadfield_name]);
 fwd = headmodel.fwd;
-savefile_path = '/Users/pokhims/Documents/Coding/NN_Source_Imaging/DeepSIF/source/';
+savefile_path = '/Users/pokhims/Documents/Coding/NN_Source_Imaging/DeepSIF'source/';
 
 % -------------------------------------------------------------------------
 iter_list = 1:5;   % the iter during NMM generation.
@@ -32,7 +32,7 @@ for i_iter = 1:length(iter_list)
     end
 
     % -------- start the main progress -----------------------------------%
-    for ii = 1:length(remaining_regions)
+    for ii = 183:183%length(remaining_regions)
 
         i = remaining_regions(ii);
         % creat folders to save nmm files
