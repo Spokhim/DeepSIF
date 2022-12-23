@@ -1,9 +1,9 @@
 clear
 train = 0;
 n_sources = 2;
-load('/Users/pokhims/Documents/Coding/NN_Source_Imaging/DeepSIF/anatomy/fs_cortex_20k_inflated.mat')
-load('/Users/pokhims/Documents/Coding/NN_Source_Imaging/DeepSIF/anatomy/fs_cortex_20k.mat')
-load('/Users/pokhims/Documents/Coding/NN_Source_Imaging/DeepSIF/anatomy/fs_cortex_20k_region_mapping.mat');
+load('../anatomy/fs_cortex_20k_inflated.mat')
+load('../anatomy/fs_cortex_20k.mat')
+load('../anatomy/fs_cortex_20k_region_mapping.mat');
 % when load mat in python, python cannot read nan properly, so use a magic number to represent nan when saving
 NAN_NUMBER = 15213; 
 MAX_SIZE = 70;
@@ -128,7 +128,7 @@ save([ds_type '_sample_' dataset_name '.mat'],'nmm_idx', 'random_samples',  '-ap
 current_snr = reshape(repmat(5:5:20,n_iter*994,1)',[],1); 
 save([ds_type '_sample_' dataset_name '.mat'],'current_snr', '-append')
 %% Scaling Factor
-load('/Users/pokhims/Documents/Coding/NN_Source_Imaging/DeepSIF/anatomy/leadfield_75_20k.mat');
+load('../anatomy/leadfield_75_20k.mat');
 gt = load([ds_type '_sample_' dataset_name '.mat']);
 scale_ratio = [];
 n_source = size(gt.selected_region, 2);
@@ -173,7 +173,7 @@ function alpha = find_alpha(region_id, nmm_idx, fwd, target_SNR)
 % OUTPUTS:
 %     - alpha      : the scaling factor for one patch source
 
-load(['/Users/pokhims/Documents/Coding/NN_Source_Imaging/DeepSIF/source/nmm_clip/a' int2str(region_id(1)-1) '/nmm_' int2str(nmm_idx) '.mat'])
+load(['../source/nmm_clip/a' int2str(region_id(1)-1) '/nmm_' int2str(nmm_idx) '.mat'])
 spike_shape = data(:,region_id(1))/max(data(:,region_id(1)));
 [~, peak_time] = max(spike_shape);
 data(:, region_id) = repmat(spike_shape,1,length(region_id));

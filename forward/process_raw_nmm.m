@@ -7,12 +7,12 @@ addRequired(p,'filename',@ischar);
 addParameter(p,'leadfield_name','leadfield_75_20k.mat', @ischar);
 parse(p, filename, varargin{:})
 filename = p.Results.filename;
-headmodel = load(['/Users/pokhims/Documents/Coding/NN_Source_Imaging/DeepSIF/anatomy/' p.Results.leadfield_name]);
+headmodel = load(['../anatomy/' p.Results.leadfield_name]);
 fwd = headmodel.fwd;
-savefile_path = '/Users/pokhims/Documents/Coding/NN_Source_Imaging/DeepSIF/source/';
+savefile_path = '../source/';
 
 % -------------------------------------------------------------------------
-iter_list = 1:5;   % the iter during NMM generation.
+iter_list = 1:3;   % the iter during NMM generation. Was 1:5 previously
 previous_iter_spike_num = zeros(1, 994);
 for i_iter = 1:length(iter_list)
     iter = iter_list(i_iter);
@@ -41,8 +41,18 @@ for i_iter = 1:length(iter_list)
         end
 
         fn = [savefile_path 'raw_nmm/a' int2str(i-1) '/mean_iter_' int2str(iter) '_a_iter_' int2str(i-1)];
-        raw_data = load([fn '_ds.mat']);
-        nmm = raw_data.all_data;
+        
+        % This loop is to merge the files together since they were separate
+        % into 20 bits. 
+        % Initialise empty array
+        nmm = [];
+        for iii = 1:20
+            raw_data = load([fn '_' int2str(iii-1) '.mat']);            
+            nmm = cat(1, nmm, raw_data.data);  % was all_data
+            %nmm(iii).data=raw_data.data;
+        end
+        % nmm = vertcat(nmm.data);
+
         % nmm = downsample(nmm, 4);
         [spike_time, spike_chan] = find_spike_time(nmm);                   % Process raw tvb output to find the spike peak time
         
